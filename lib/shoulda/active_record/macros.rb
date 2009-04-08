@@ -583,6 +583,25 @@ module Shoulda # :nodoc:
           assert_accepts matcher.in_context(self), klass.new
         end
       end
+
+      # Ensures that the model has a default scope defined.
+      #
+      # If an instance variable has been created in the setup named after the
+      # model being tested, then this method will use that.  Otherwise, it will
+      # create a new instance to test against.
+      #
+      # Example:
+      #   should_have_default_scope :conditions => {:visible => true}
+      #
+      def should_have_default_scope(options = {})
+        klass   = model_class
+        matcher = have_default_scope(options)
+
+        should matcher.description do
+          assert_accepts(matcher, get_instance_of(klass))
+        end
+      end
+
     end
   end
 end
